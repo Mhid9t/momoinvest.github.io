@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghana Mobile Money Investment Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            background-color: var(--dark-color);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin: 20px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        input, select, button, textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .investment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .investment-option {
+            border: 1px solid #ddd;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: white;
+        }
+        
+        .investment-option:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .investment-option.active {
+            border-color: var(--accent-color);
+            background-color: rgba(16, 185, 129, 0.05);
+            transform: scale(1.02);
+        }
+        
+        .investment-icon {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+            width: 4rem;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .investment-option:hover .investment-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        .daily-return {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .investment-item {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background-color: white;
+        }
+        
+        .investment-item:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .password-strength {
+            height: 6px;
+            margin-top: 5px;
+            background: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .password-strength span {
+            display: block;
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s, background 0.3s;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .hero-image {
+            animation: float 6s ease-in-out infinite;
+            border-radius: 15px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            min-width: 300px;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .btn-loading {
+            position: relative;
+        }
+        
+        .btn-loading .spinner {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .btn-loading span {
+            visibility: hidden;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s ease;
+        }
+        
+        .testimonial-card {
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            nav a {
+                margin: 5px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .investment-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="mb-0">Ghana Mobile Money Investment Platform</h1>
+            <p class="mt-2 mb-0">Invest. Grow. Prosper.</p>
+        </div>
+    </header>
+    <nav>
+        <a href="#" class="active" onclick="showSection('dashboard')"><i class="fas fa-home mr-2"></i>Dashboard</a>
+        <a href="#" onclick="showSection('invest')"><i class="fas fa-chart-line mr-2"></i>Invest</a>
+        <a href="#" onclick="showSection('deposit')"><i class="fas fa-money-bill-wave mr-2"></i>Deposit</a>
+        <a href="#" onclick="showSection('withdraw')"><i class="fas fa-wallet mr-2"></i>Withdraw</a>
+        <a href="#" onclick="showSection('login')" id="loginNav"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
+        <a href="#" onclick="showSection('register')" id="registerNav"><i class="fas fa-user-plus mr-2"></i>Register</a>
+        <a href="#" onclick="logout()" class="hidden" id="logoutNav"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+    </nav>
+
+    <div class="container">
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast hidden">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">Notification</strong>
+                <button type="button" class="btn-close" onclick="hideToast()"></button>
+            </div>
+            <div class="toast-body" id="toastMessage"></div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="card">
+            <div id="userInfo">
+                <!-- Hero Section - Changed background color -->
+<div class="bg-light text-dark rounded-lg p-6 mb-6">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <h1 class="display-5 fw-bold mb-3">Build Wealth With Smart Investments</h1>
+            <p class="lead mb-4">Access exclusive investment opportunities with higher potential returns than traditional markets.</p>
+            <div class="d-flex align-items-center">
+                <div class="d-flex me-4">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr19USiN92MdGxwMh5VscN86FMZDF-30I2iQ&amp;s" class="rounded-circle border border-3 border-white" width="40" height="40" alt="Investor">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaVQmGYMIYe4IZ7rSAiINWz2eDNWA1i6rcgA&s" class="rounded-circle border border-3 border-white ms-n2" width="40" height="40" alt="Investor">
+                    <img src="https://media.licdn.com/dms/image/sync/v2/D4E27AQHu63EfsVpO3A/articleshare-shrink_800/articleshare-shrink_800/0/1712225071781?e=2147483647&v=beta&t=rvnYd6cJuTbr0-1Y5D3BFY6uEitJxIJ1u-hr0DNQWn0" class="rounded-circle border border-3 border-white ms-n2" width="40" height="40" alt="Investor">
+                </div>
+                <div>
+                    <p class="small mb-0">Join 25,000+ investors</p>
+                    <div class="text-warning small">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="text-dark ms-1">4.8 (2,345 reviews)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                 alt="Investment Growth" 
+                 class="hero-image img-fluid rounded-lg">
+        </div>
+    </div>
+</div>
+
+                <!-- Trusted By Section -->
+                <div class="bg-light rounded-lg p-5 mb-6 text-center">
+                    <p class="text-muted text-uppercase small mb-4">TRUSTED BY LEADING COMPANIES</p>
+                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 gap-md-5">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="img-fluid" style="height: 28px; opacity: 0.7;">
+                        <img src="https://www.sharepointeurope.com/wp-content/uploads/sponsors/2024/08/Microsoft-Logo.png" alt="Microsoft" class="img-fluid" style="height: 28px; opacity: 0.7;">
+                        <img src="data:image/png;base64,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" alt="Amazon" class="img-fluid" style="height: 24px; opacity: 0.7;">
+                        <img src="data:image/png;base64,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" alt="IBM" class="img-fluid" style="height: 28px; opacity: 0.7;">
+                        <img src="data:image/png;base64,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" alt="Tesla" class="img-fluid" style="height: 24px; opacity: 0.7;">
+                    </div>
+                </div> 
+
+                <!-- Stats Section -->
+                <div class="row g-4 mb-6">
+                    <div class="col-md-4">
+                        <div class="feature-card h-100 p-4 rounded-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 text-primary me-3">
+                                    <i class="fas fa-chart-line fs-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Average Annual Return</p>
+                                    <h3 class="mb-0">14.2%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card h-100 p-4 rounded-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 text-success me-3">
+                                    <i class="fas fa-users fs-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Active Investors</p>
+                                    <h3 class="mb-0">25,000+</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card h-100 p-4 rounded-lg">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-purple bg-opacity-10 rounded-circle p-3 text-purple me-3">
+                                    <i class="fas fa-hand-holding-usd fs-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Total Returns</p>
+                                    <h3 class="mb-0">$128M+</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Dashboard -->
+                <div id="userDashboard" class="hidden">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title">Account Summary</h3>
+                                    <div id="balanceInfo" class="mb-4">
+                                        <h4 class="text-success"><i class="fas fa-wallet me-2"></i> Balance: <span id="currentBalance">GH₵ 0.00</span></h4>
+                                    </div>
+                                    <div class="progress mb-3">
+                                        <div id="investmentProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                    <p class="small text-muted">Investment progress</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title">Quick Actions</h3>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" onclick="showSection('deposit')">
+                                            <i class="fas fa-money-bill-wave me-2"></i>Deposit Funds
+                                        </button>
+                                        <button class="btn btn-success" onclick="showSection('invest')">
+                                            <i class="fas fa-chart-line me-2"></i>Invest Now
+                                        </button>
+                                        <button class="btn btn-warning" onclick="showSection('withdraw')">
+                                            <i class="fas fa-wallet me-2"></i>Withdraw Funds
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title">Active Investments</h3>
+                                    <div id="investmentsList" class="mt-3">
+                                        <p class="text-muted">You have no active investments</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title">Recent Returns</h3>
+                                    <div id="dailyReturnsList" class="mt-3">
+                                        <p class="text-muted">No daily returns yet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guest Dashboard -->
+                <div id="guestDashboard">
+                    <div class="card">
+                        <div class="card-body text-center py-5">
+                            <h3 class="card-title mb-4">Welcome to Ghana Mobile Money Investments</h3>
+                            <p class="card-text mb-4">Please login or register to access your investment dashboard</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button class="btn btn-primary" onclick="showSection('login')">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                                </button>
+                                <button class="btn btn-success" onclick="showSection('register')">
+                                    <i class="fas fa-user-plus me-2"></i>Register
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Section -->
+                <div class="mt-6">
+                    <h2 class="text-center mb-5">Why Choose Our Platform</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="feature-card p-4 rounded-lg h-100">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 text-primary mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-shield-alt fs-4"></i>
+                                </div>
+                                <h4>Secure Investments</h4>
+                                <p class="text-muted">Bank-level security protects your investments and personal information.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card p-4 rounded-lg h-100">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 text-success mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-chart-pie fs-4"></i>
+                                </div>
+                                <h4>Diversified Portfolio</h4>
+                                <p class="text-muted">Access multiple asset classes with high potential returns.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card p-4 rounded-lg h-100">
+                                <div class="bg-warning bg-opacity-10 rounded-circle p-3 text-warning mb-3" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-hand-holding-usd fs-4"></i>
+                                </div>
+                                <h4>Passive Income</h4>
+                                <p class="text-muted">Earn regular dividends without active management.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonials -->
+                <div class="mt-6">
+                    <h2 class="text-center mb-5">What Our Investors Say</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="testimonial-card p-4 rounded-lg h-100 bg-light">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr19USiN92MdGxwMh5VscN86FMZDF-30I2iQ&amp;s" class="rounded-circle me-3" width="50" alt="User">
+                                    <div>
+                                        <h5 class="mb-0">Ama Mensah</h5>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mb-0">"I've doubled my initial investment in just 6 months. The daily returns are consistent and the platform is very user-friendly."</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="testimonial-card p-4 rounded-lg h-100 bg-light">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaVQmGYMIYe4IZ7rSAiINWz2eDNWA1i6rcgA&s" class="rounded-circle me-3" width="50" alt="User">
+                                    <div>
+                                        <h5 class="mb-0">Kwame Osei</h5>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mb-0">"The best investment platform in Ghana. Their customer service is excellent and withdrawals are processed quickly."</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="testimonial-card p-4 rounded-lg h-100 bg-light">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://media.licdn.com/dms/image/sync/v2/D4E27AQHu63EfsVpO3A/articleshare-shrink_800/articleshare-shrink_800/0/1712225071781?e=2147483647&v=beta&t=rvnYd6cJuTbr0-1Y5D3BFY6uEitJxIJ1u-hr0DNQWn0" class="rounded-circle me-3" width="50" alt="User">
+                                    <div>
+                                        <h5 class="mb-0">Esi Boateng</h5>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mb-0">"I was skeptical at first, but after seeing my daily returns, I'm convinced this is the real deal. Highly recommended!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Invest Section -->
+        <div id="invest" class="card hidden">
+            <h2 class="text-center mb-4">Make an Investment</h2>
+            <p class="text-center text-muted mb-4">Choose from our carefully curated investment plans</p>
+            
+            <div class="investment-grid">
+                <div class="investment-option" data-plan="basic" data-amount="100">
+                    <div class="investment-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>Basic Plan</h3>
+                    <p class="amount fs-4 fw-bold">GH₵ 100</p>
+                    <p class="rate text-success">GH₵25 daily + GHS5 bonus</p>
+                    <p class="small text-muted">Minimum: GH₵100</p>
+                </div>
+                <div class="investment-option" data-plan="standard" data-amount="200">
+                    <div class="investment-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>Standard Plan</h3>
+                    <p class="amount fs-4 fw-bold">GH₵ 200</p>
+                    <p class="rate text-success">GH₵50 daily + GHS5 bonus</p>
+                    <p class="small text-muted">Minimum: GH₵200</p>
+                </div>
+                <div class="investment-option" data-plan="premium" data-amount="300">
+                    <div class="investment-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Premium Plan</h3>
+                    <p class="amount fs-4 fw-bold">GH₵ 300</p>
+                    <p class="rate text-success">GH₵75 daily + GHS5 bonus</p>
+                    <p class="small text-muted">Minimum: GH₵300</p>
+                </div>
+                <div class="investment-option" data-plan="vip" data-amount="500">
+                    <div class="investment-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>VIP Plan</h3>
+                    <p class="amount fs-4 fw-bold">GH₵ 500</p>
+                    <p class="rate text-success">GH₵125 daily + GHS5 bonus</p>
+                    <p class="small text-muted">Minimum: GH₵500</p>
+                </div>
+                <div class="investment-option" data-plan="vvip" data-amount="1000">
+                    <div class="investment-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>VVIP Plan</h3>
+                    <p class="amount fs-4 fw-bold">GH₵ 1,000</p>
+                    <p class="rate text-success">GH₵250 daily + GHS5 bonus</p>
+                    <p class="small text-muted">Minimum: GH₵1,000</p>
+                </div>
+                <div class="investment-option" data-plan="elite" data-amount="2000">
+                    <div class="investment-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Elite Plan</h3>
+                    <p class="amount fs-4 fw-bold">GH₵ 2,000</p>
+                    <p class="rate text-success">GH₵500 daily + GHS5 bonus</p>
+                    <p class="small text-muted">Minimum: GH₵2,000</p>
+                </div>
+            </div>
+            
+            <form id="investmentForm" class="mt-5">
+                <input type="hidden" id="selectedPlan" value="">
+                <input type="hidden" id="investmentAmount" value="">
+                
+                <div id="investmentDetails" class="hidden p-4 bg-light rounded-lg mb-4">
+                    <h3 class="text-center mb-3" id="selectedPlanName">Plan Details</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Amount:</strong> <span id="displayAmount" class="fw-bold">GH₵ 0.00</span></p>
+                            <p><strong>Daily Return:</strong> <span class="text-success">25% + GHS5 bonus</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Projected Monthly:</strong> <span id="projectedMonthly" class="fw-bold">GH₵ 0.00</span></p>
+                            <p><strong>Projected Yearly:</strong> <span id="projectedYearly" class="fw-bold">GH₵ 0.00</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" id="investButton" class="btn btn-primary btn-lg w-100" disabled>
+                    <span>Invest Now</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Deposit Section -->
+        <div id="deposit" class="card hidden">
+            <h2 class="text-center mb-4">Deposit Funds</h2>
+            <p class="text-center text-muted mb-4">Fund your account via mobile money</p>
+            
+            <form id="depositForm">
+                <div class="mb-3">
+                    <label for="depositNetwork" class="form-label">Mobile Network</label>
+                    <select id="depositNetwork" class="form-select" required>
+                        <option value="">Select Mobile Network</option>
+                        <option value="MTN">MTN Mobile Money</option>
+                        <option value="Vodafone">Vodafone Cash</option>
+                        <option value="AirtelTigo">AirtelTigo Money</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="depositPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="depositPhone" class="form-control" placeholder="e.g., 0244123456" required pattern="0\d{9}">
+                    <div class="form-text">Enter your mobile money number starting with 0</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="depositAmount" class="form-label">Amount (GHS)</label>
+                    <input type="number" id="depositAmount" class="form-control" placeholder="Enter amount" required min="1">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-money-bill-wave me-2"></i> Deposit Now
+                </button>
+            </form>
+            
+            <div class="mt-4 p-3 bg-light rounded">
+                <h5 class="mb-3">Deposit Instructions</h5>
+                <ol>
+                    <li>Select your mobile network provider</li>
+                    <li>Enter your mobile money number</li>
+                    <li>Enter the amount you wish to deposit</li>
+                    <li>Click "Deposit Now"</li>
+                    <li>Confirm the payment on your phone when prompted</li>
+                </ol>
+                <p class="mb-0 text-muted"><small>Deposits are processed instantly. Minimum deposit is GH₵10.</small></p>
+            </div>
+        </div>
+
+        <!-- Withdraw Section -->
+        <div id="withdraw" class="card hidden">
+            <h2 class="text-center mb-4">Withdraw Funds</h2>
+            <p class="text-center text-muted mb-4">Withdraw your earnings to your mobile money wallet</p>
+            
+            <form id="withdrawForm">
+                <div class="mb-3">
+                    <label for="withdrawNetwork" class="form-label">Mobile Network</label>
+                    <select id="withdrawNetwork" class="form-select" required>
+                        <option value="">Select Mobile Network</option>
+                        <option value="MTN">MTN Mobile Money</option>
+                        <option value="Vodafone">Vodafone Cash</option>
+                        <option value="AirtelTigo">AirtelTigo Money</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="withdrawPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="withdrawPhone" class="form-control" placeholder="e.g., 0244123456" required pattern="0\d{9}">
+                    <div class="form-text">Enter your mobile money number starting with 0</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="withdrawAmount" class="form-label">Amount (GHS)</label>
+                    <input type="number" id="withdrawAmount" class="form-control" placeholder="Enter amount" required min="1">
+                </div>
+                
+                <button type="submit" class="btn btn-success btn-lg w-100">
+                    <i class="fas fa-wallet me-2"></i> Withdraw Now
+                </button>
+            </form>
+            
+            <div class="mt-4 p-3 bg-light rounded">
+                <h5 class="mb-3">Withdrawal Information</h5>
+                <ul>
+                    <li>Minimum withdrawal: GH₵20</li>
+                    <li>Standard processing time: 1-24 hours</li>
+                    <li>No withdrawal fees</li>
+                    <li>Daily withdrawal limit: GH₵5,000</li>
+                </ul>
+                <p class="mb-0 text-muted"><small>For large withdrawals, please contact customer support.</small></p>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="login" class="card hidden">
+            <h2 class="text-center mb-4">Login to Your Account</h2>
+            <p class="text-center text-muted mb-4">Access your investment dashboard</p>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="loginPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="loginPhone" class="form-control" placeholder="e.g., 0244123456" required pattern="0\d{9}">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required minlength="8">
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                    <i class="fas fa-sign-in-alt me-2"></i> Login
+                </button>
+                
+                <div class="text-center">
+                    <a href="#" onclick="showSection('register')">Don't have an account? Register</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Register Section -->
+        <div id="register" class="card hidden">
+            <h2 class="text-center mb-4">Create an Account</h2>
+            <p class="text-center text-muted mb-4">Start your investment journey today</p>
+            
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label for="registerName" class="form-label">Full Name</label>
+                    <input type="text" id="registerName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="registerPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="registerPhone" class="form-control" placeholder="e.g., 0244123456" required pattern="0\d{9}">
+                    <div class="form-text">This will be your login username</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="registerPassword" class="form-label">Password</label>
+                    <input type="password" id="registerPassword" class="form-control" placeholder="Create a password (min 8 characters)" required minlength="8">
+                    <div class="password-strength mt-2">
+                        <span id="passwordStrength"></span>
+                    </div>
+                    <div class="form-text">Password must contain at least 8 characters</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="registerReferral" class="form-label">Referral Code (Optional)</label>
+                    <input type="text" id="registerReferral" class="form-control" placeholder="Enter referral code if any">
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                    <label class="form-check-label" for="agreeTerms">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a></label>
+                </div>
+                
+                <button type="submit" class="btn btn-success btn-lg w-100">
+                    <i class="fas fa-user-plus me-2"></i> Register
+                </button>
+                
+                <div class="text-center mt-3">
+                    <a href="#" onclick="showSection('login')">Already have an account? Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terms and Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Investment Terms</h6>
+                    <p>All investments are subject to market risks. Past performance is not indicative of future results.</p>
+                    
+                    <h6>2. Account Security</h6>
+                    <p>You are responsible for maintaining the confidentiality of your login credentials.</p>
+                    
+                    <h6>3. Withdrawals</h6>
+                    <p>Withdrawals may take 1-24 hours to process. Large withdrawals may require additional verification.</p>
+                    
+                    <h6>4. Fees</h6>
+                    <p>There are no fees for deposits or withdrawals. All fees are clearly disclosed before transactions.</p>
+                    
+                    <h6>5. Privacy Policy</h6>
+                    <p>We collect and use your personal information in accordance with our Privacy Policy.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Ghana Mobile Money Investments</h5>
+                    <p>Building wealth through smart investments for Ghanaians.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showSection('dashboard')">Home</a></li>
+                        <li><a href="#" onclick="showSection('invest')">Invest</a></li>
+                        <li><a href="#" onclick="showSection('deposit')">Deposit</a></li>
+                        <li><a href="#" onclick="showSection('withdraw')">Withdraw</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5>Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Risk Disclosure</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Accra, Ghana</li>
+                        <li><i class="fas fa-phone me-2"></i> +233 24 123 4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> support@ghanainvest.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 Ghana Mobile Money Investments. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Enhanced database with more realistic data
+        let users = JSON.parse(localStorage.getItem('users')) || [
+            {
+                id: "1",
+                name: "Demo User",
+                phone: "0241234567",
+                password: "password123",
+                balance: 1000,
+                investments: [],
+                createdAt: new Date()
+            }
+        ];
+        
+        let investments = JSON.parse(localStorage.getItem('investments')) || [];
+        let dailyReturns = JSON.parse(localStorage.getItem('dailyReturns')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let simulatedTime = new Date(); // For demonstration purposes
+
+        // DOM Elements
+        const sections = {
+            dashboard: document.getElementById('dashboard'),
+            invest: document.getElementById('invest'),
+            deposit: document.getElementById('deposit'),
+            withdraw: document.getElementById('withdraw'),
+            login: document.getElementById('login'),
+            register: document.getElementById('register')
+        };
+
+        // Navigation elements
+        const loginNav = document.getElementById('loginNav');
+        const registerNav = document.getElementById('registerNav');
+        const logoutNav = document.getElementById('logoutNav');
+
+        // Dashboard elements
+        const userDashboard = document.getElementById('userDashboard');
+        const guestDashboard = document.getElementById('guestDashboard');
+
+        // Form elements
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const investmentForm = document.getElementById('investmentForm');
+        const depositForm = document.getElementById('depositForm');
+        const withdrawForm = document.getElementById('withdrawForm');
+
+        // Investment option elements
+        const investmentOptions = document.querySelectorAll('.investment-option');
+        const selectedPlanInput = document.getElementById('selectedPlan');
+        const investmentAmountInput = document.getElementById('investmentAmount');
+        const investButton = document.getElementById('investButton');
+        const investmentDetails = document.getElementById('investmentDetails');
+        const selectedPlanName = document.getElementById('selectedPlanName');
+        const displayAmount = document.getElementById('displayAmount');
+        const projectedMonthly = document.getElementById('projectedMonthly');
+        const projectedYearly = document.getElementById('projectedYearly');
+
+        // Password strength indicator
+        const passwordStrength = document.getElementById('passwordStrength');
+        const registerPassword = document.getElementById('registerPassword');
+
+        // Display elements
+        const balanceInfo = document.getElementById('balanceInfo');
+        const investmentsList = document.getElementById('investmentsList');
+        const dailyReturnsList = document.getElementById('dailyReturnsList');
+        const currentBalance = document.getElementById('currentBalance');
+        const investmentProgress = document.getElementById('investmentProgress');
+
+        // Toast notification elements
+        const toast = document.getElementById('toast');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Helper functions
+        function showToast(title, message, type = 'info') {
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            toast.className = `toast show bg-${type}`;
+            setTimeout(hideToast, 5000);
+        }
+
+        function hideToast() {
+            toast.classList.remove('show');
+        }
+
+        function showSection(sectionId) {
+            Object.values(sections).forEach(section => {
+                section.classList.add('hidden');
+            });
+            sections[sectionId].classList.remove('hidden');
+            
+            // Update active nav link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (sectionId === 'dashboard') {
+                document.querySelector('nav a[onclick="showSection(\'dashboard\')"]').classList.add('active');
+            }
+            
+            // Update dashboard when shown
+            if (sectionId === 'dashboard') {
+                updateDashboard();
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-GH', {
+                style: 'currency',
+                currency: 'GHS'
+            }).format(amount);
+        }
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength += 1;
+            if (password.match(/[a-z]/)) strength += 1;
+            if (password.match(/[A-Z]/)) strength += 1;
+            if (password.match(/[0-9]/)) strength += 1;
+            if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+            
+            return strength;
+        }
+
+        function updatePasswordStrength() {
+            const password = registerPassword.value;
+            const strength = calculatePasswordStrength(password);
+            
+            let width = '0%';
+            let color = 'red';
+            
+            if (password.length > 0) {
+                width = (strength / 5 * 100) + '%';
+                
+                if (strength <= 2) color = 'var(--danger-color)';
+                else if (strength <= 3) color = 'var(--warning-color)';
+                else color = 'var(--accent-color)';
+            }
+            
+            passwordStrength.style.width = width;
+            passwordStrength.style.backgroundColor = color;
+        }
+
+        function calculateDailyReturns() {
+            if (!currentUser) return;
+
+            const now = simulatedTime;
+            const userInvestments = investments.filter(inv => inv.userId === currentUser.id && inv.status === 'active');
+            
+            userInvestments.forEach(investment => {
+                // Check if it's time for daily return (same hour/minute as investment time)
+                const investmentTime = new Date(investment.investmentTime);
+                if (
+                    now.getDate() !== investmentTime.getDate() && // Different day
+                    now.getHours() === investmentTime.getHours() && // Same hour
+                    now.getMinutes() === investmentTime.getMinutes() // Same minute
+                ) {
+                    const daysPassed = Math.floor((now - investmentTime) / (1000 * 60 * 60 * 24));
+                    
+                    // Calculate today's return (25% of investment + GHS5 bonus)
+                    const dailyReturnAmount = (investment.amount * 0.25) + 5;
+                    
+                    // Create return record
+                    const returnRecord = {
+                        id: `return-${investment.id}-${daysPassed}`,
+                        investmentId: investment.id,
+                        userId: currentUser.id,
+                        amount: dailyReturnAmount,
+                        date: new Date(now),
+                        dayNumber: daysPassed
+                    };
+                    
+                    // Check if this return was already processed
+                    if (!dailyReturns.some(r => r.id === returnRecord.id)) {
+                        dailyReturns.push(returnRecord);
+                        currentUser.balance += dailyReturnAmount;
+                
+                        // Update investment (track last return date)
+                        investment.lastReturnDate = now;
+                        
+                        // Save to localStorage
+                        saveData();
+                        
+                        // Show notification
+                        showToast('Daily Return Added', `You received ${formatCurrency(dailyReturnAmount)} from your ${investment.plan} investment`, 'success');
+                    }
+                }
+            });
+        }
+
+        function updateDashboard() {
+            if (currentUser) {
+                // Calculate any pending daily returns
+                calculateDailyReturns();
+                
+                // Show user dashboard
+                userDashboard.classList.remove('hidden');
+                guestDashboard.classList.add('hidden');
+                
+                // Update navigation
+                loginNav.classList.add('hidden');
+                registerNav.classList.add('hidden');
+                logoutNav.classList.remove('hidden');
+                
+                // Update user info
+                currentBalance.textContent = formatCurrency(currentUser.balance);
+                
+                // Calculate total invested
+                const totalInvested = investments
+                    .filter(inv => inv.userId === currentUser.id)
+                    .reduce((sum, inv) => sum + inv.amount, 0);
+                
+                // Update progress bar
+                const progressPercentage = totalInvested > 0 ? Math.min(100, (totalInvested / 5000) * 100) : 0;
+                investmentProgress.style.width = `${progressPercentage}%`;
+                
+                const userInvestments = investments.filter(inv => inv.userId === currentUser.id);
+                if (userInvestments.length > 0) {
+                    investmentsList.innerHTML = `
+                        ${userInvestments.map(inv => `
+                            <div class="investment-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-1">${inv.plan}</h5>
+                                    <span class="badge ${inv.status === 'active' ? 'bg-success' : 'bg-secondary'}">
+                                        ${inv.status === 'active' ? 'Active' : 'Completed'}
+                                    </span>
+                                </div>
+                                <p class="mb-1"><strong>Amount:</strong> ${formatCurrency(inv.amount)}</p>
+                                <p class="mb-1"><strong>Daily Return:</strong> ${formatCurrency(inv.amount * 0.25 + 5)}</p>
+                                <p class="mb-1"><small class="text-muted">Started: ${new Date(inv.investmentTime).toLocaleDateString()}</small></p>
+                                ${inv.status === 'active' ? 
+                                    `<p class="mb-0"><small>Next return today at ${String(new Date(inv.investmentTime).getHours()).padStart(2, '0')}:${String(new Date(inv.investmentTime).getMinutes()).padStart(2, '0')}</small></p>` : 
+                                    ''}
+                            </div>
+                        `).join('')}
+                    `;
+                } else {
+                    investmentsList.innerHTML = '<div class="text-center py-4"><p class="text-muted">You have no active investments</p></div>';
+                }
+                
+                const userReturns = dailyReturns.filter(r => r.userId === currentUser.id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                if (userReturns.length > 0) {
+                    dailyReturnsList.innerHTML = `
+                        ${userReturns.slice(0, 5).map(ret => `
+                            <div class="investment-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-1">Day ${ret.dayNumber}</h5>
+                                    <span class="daily-return">+${formatCurrency(ret.amount)}</span>
+                                </div>
+                                <p class="mb-1">${new Date(ret.date).toLocaleDateString()}</p>
+                                <p class="mb-0"><small class="text-muted">From: ${investments.find(inv => inv.id === ret.investmentId)?.plan || 'Unknown'}</small></p>
+                            </div>
+                        `).join('')}
+                    `;
+                } else {
+                    dailyReturnsList.innerHTML = '<div class="text-center py-4"><p class="text-muted">No daily returns yet</p></div>';
+                }
+            } else {
+                // Show guest dashboard
+                userDashboard.classList.add('hidden');
+                guestDashboard.classList.remove('hidden');
+                
+                // Update navigation
+                loginNav.classList.remove('hidden');
+                registerNav.classList.remove('hidden');
+                logoutNav.classList.add('hidden');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('investments', JSON.stringify(investments));
+            localStorage.setItem('dailyReturns', JSON.stringify(dailyReturns));
+            if (currentUser) {
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            } else {
+                localStorage.removeItem('currentUser');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            saveData();
+            updateDashboard();
+            showSection('dashboard');
+            showToast('Logged Out', 'You have been successfully logged out', 'success');
+        }
+
+        // Simulate time passing (for demo purposes)
+        function simulateTimePassing() {
+            // Advance time by 1 minute every 60 seconds (real-time)
+            simulatedTime = new Date(simulatedTime.getTime() + 60000);
+            updateDashboard();
+            
+            // Check if we should advance a day (for demo)
+            if (simulatedTime.getHours() === 0 && simulatedTime.getMinutes() === 0) {
+                showToast('New Day', 'A new day has started! Daily returns will be processed at the time of each investment.', 'info');
+            }
+        }
+
+        // Investment option selection
+        investmentOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                investmentOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to selected option
+                this.classList.add('active');
+                
+                // Get the investment details
+                const plan = this.getAttribute('data-plan');
+                const amount = parseFloat(this.getAttribute('data-amount'));
+                const planName = this.querySelector('h3').textContent;
+                
+                // Update the form inputs
+                selectedPlanInput.value = plan;
+                investmentAmountInput.value = amount;
+                
+                // Update the display
+                selectedPlanName.textContent = planName;
+                displayAmount.textContent = formatCurrency(amount);
+                
+                // Calculate projections
+                const dailyReturn = (amount * 0.25) + 5;
+                const monthlyReturn = dailyReturn * 30;
+                const yearlyReturn = dailyReturn * 365;
+                
+                projectedMonthly.textContent = formatCurrency(monthlyReturn);
+                projectedYearly.textContent = formatCurrency(yearlyReturn);
+                
+                // Show details and enable button
+                investmentDetails.classList.remove('hidden');
+                investButton.disabled = false;
+            });
+        });
+
+        // Password strength indicator
+        registerPassword.addEventListener('input', updatePasswordStrength);
+
+        // Form event listeners
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const phone = document.getElementById('registerPhone').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const referral = document.getElementById('registerReferral').value.trim();
+            
+            // Validate Ghanaian phone number (now starts with 0)
+            if (!/^0\d{9}$/.test(phone)) {
+                showToast('Error', 'Please enter a valid Ghanaian phone number starting with 0 (e.g., 0244123456)', 'danger');
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 8) {
+                showToast('Error', 'Password must be at least 8 characters long', 'danger');
+                return;
+            }
+            
+            // Check if user already exists
+            if (users.some(u => u.phone === phone)) {
+                showToast('Error', 'User with this phone number already exists', 'danger');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now().toString(),
+                name,
+                phone,
+                password, // In a real app, this would be hashed
+                balance: referral ? 50 : 0, // Bonus for referrals
+                investments: [],
+                createdAt: new Date()
+            };
+            
+            users.push(newUser);
+            currentUser = newUser;
+            
+            // Apply referral bonus if applicable
+            if (referral) {
+                showToast('Bonus Applied', 'You received GH₵50 bonus for using a referral code!', 'success');
+            }
+            
+            saveData();
+            showToast('Registration Successful', 'Your account has been created successfully!', 'success');
+            updateDashboard();
+            showSection('dashboard');
+            registerForm.reset();
+            passwordStrength.style.width = '0%';
+        });
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('loginPhone').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            const user = users.find(u => u.phone === phone && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                saveData();
+                showToast('Login Successful', `Welcome back, ${user.name}!`, 'success');
+                updateDashboard();
+                showSection('dashboard');
+                loginForm.reset();
+                
+                // Remember me functionality
+                if (rememberMe) {
+                    localStorage.setItem('rememberedUser', phone);
+                } else {
+                    localStorage.removeItem('rememberedUser');
+                }
+            } else {
+                showToast('Login Failed', 'Invalid phone number or password', 'danger');
+            }
+        });
+
+        investmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showToast('Login Required', 'Please login first', 'danger');
+                showSection('login');
+                return;
+            }
+            
+            const plan = selectedPlanInput.value;
+            const amount = parseFloat(investmentAmountInput.value);
+            
+            if (!plan || !amount) {
+                showToast('Error', 'Please select an investment plan', 'danger');
+                return;
+            }
+            
+            if (amount > currentUser.balance) {
+                showToast('Error', 'Insufficient balance', 'danger');
+                return;
+            }
+            
+            // Deduct from balance
+            currentUser.balance -= amount;
+            
+            // Create investment
+            const newInvestment = {
+                id: Date.now().toString(),
+                userId: currentUser.id,
+                plan: selectedPlanName.textContent,
+                amount,
+                investmentTime: new Date(simulatedTime),
+                status: 'active',
+                lastReturnDate: null
+            };
+            
+            investments.push(newInvestment);
+            currentUser.investments.push(newInvestment.id);
+            
+            saveData();
+            
+            showToast('Investment Successful', 
+                `You invested ${formatCurrency(amount)} in the ${selectedPlanName.textContent} plan. Daily returns: ${formatCurrency(amount * 0.25 + 5)}`, 
+                'success');
+            
+            updateDashboard();
+            
+            // Reset investment form
+            investmentOptions.forEach(opt => opt.classList.remove('active'));
+            investmentDetails.classList.add('hidden');
+            investButton.disabled = true;
+            investmentForm.reset();
+            showSection('dashboard');
+        });
+
+        depositForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showToast('Login Required', 'Please login first', 'danger');
+                showSection('login');
+                return;
+            }
+            
+            const network = document.getElementById('depositNetwork').value;
+            const phone = document.getElementById('depositPhone').value.trim();
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            
+            if (!network) {
+                showToast('Error', 'Please select a mobile network', 'danger');
+                return;
+            }
+            
+            if (!/^0\d{9}$/.test(phone)) {
+                showToast('Error', 'Please enter a valid Ghanaian phone number starting with 0 (e.g., 0244123456)', 'danger');
+                return;
+            }
+            
+            if (isNaN(amount) || amount <= 0) {
+                showToast('Error', 'Please enter a valid amount', 'danger');
+                return;
+            }
+            
+            if (amount < 10) {
+                showToast('Error', 'Minimum deposit is GH₵10', 'danger');
+                return;
+            }
+            
+            // Simulate mobile money deposit
+            currentUser.balance += amount;
+            
+            saveData();
+            
+            showToast('Deposit Successful', 
+                `${formatCurrency(amount)} has been added to your account from ${network} (${phone}). New balance: ${formatCurrency(currentUser.balance)}`, 
+                'success');
+            
+            updateDashboard();
+            depositForm.reset();
+        });
+
+        withdrawForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showToast('Login Required', 'Please login first', 'danger');
+                showSection('login');
+                return;
+            }
+            
+            const network = document.getElementById('withdrawNetwork').value;
+            const phone = document.getElementById('withdrawPhone').value.trim();
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            
+            if (!network) {
+                showToast('Error', 'Please select a mobile network', 'danger');
+                return;
+            }
+            
+            if (!/^0\d{9}$/.test(phone)) {
+                showToast('Error', 'Please enter a valid Ghanaian phone number starting with 0 (e.g., 0244123456)', 'danger');
+                return;
+            }
+            
+            if (isNaN(amount) || amount <= 0) {
+                showToast('Error', 'Please enter a valid amount', 'danger');
+                return;
+            }
+            
+            if (amount < 20) {
+                showToast('Error', 'Minimum withdrawal is GH₵20', 'danger');
+                return;
+            }
+            
+            if (amount > 5000) {
+                showToast('Error', 'Maximum daily withdrawal is GH₵5,000', 'danger');
+                return;
+            }
+            
+            if (amount > currentUser.balance) {
+                showToast('Error', 'Insufficient balance', 'danger');
+                return;
+            }
+            
+            // Simulate mobile money withdrawal
+            currentUser.balance -= amount;
+            
+            saveData();
+            
+            showToast('Withdrawal Successful', 
+                `${formatCurrency(amount)} has been sent to your ${network} wallet (${phone}). New balance: ${formatCurrency(currentUser.balance)}`, 
+                'success');
+            
+            updateDashboard();
+            withdrawForm.reset();
+        });
+
+        // Initialize the app
+        function initApp() {
+            // Check for remembered user
+            const rememberedUser = localStorage.getItem('rememberedUser');
+            if (rememberedUser) {
+                const user = users.find(u => u.phone === rememberedUser);
+                if (user) {
+                    currentUser = user;
+                    document.getElementById('rememberMe').checked = true;
+                }
+            }
+            
+            updateDashboard();
+            showSection('dashboard');
+            
+            // For demo purposes: simulate time passing (1 minute every 60 seconds)
+            setInterval(simulateTimePassing, 60000);
+            
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+
+        // Start the app
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
